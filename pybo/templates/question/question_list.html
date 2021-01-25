@@ -1,0 +1,34 @@
+<!--질문을 시간에 따라 내림차순으로 보여주는 파일-->
+{% extends 'base.html' %}
+{% block content %}
+<div class="container my-3">
+    <table class="table">
+        <thead>
+        <tr class="thead-dark">
+            <th>번호</th>
+            <th>제목</th>
+            <th>작성일시</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% if question_list %}
+        {% for question in question_list %}
+        <tr>
+            <td>{{ loop.index }}</td> <!--loop.index는 1부터 1씩 증가하는 loop 속성이다-->
+            <td>
+                <a href="{{ url_for('question.detail', question_id=question.id) }}">{{ question.subject }}</a>
+                <!--질문의 제목을 누르면 해당된 아이디의 경로로 이동-->
+            </td>
+            <td>{{ question.create_date }}</td>
+        </tr>
+        {% endfor %}
+        {% else %}
+        <tr>
+            <td colspan="3">질문이 없습니다</td>
+        </tr>
+        {% endif %}
+        </tbody>
+    </table>
+    <a href="{{ url_for('question.create') }}" class="btn btn-primary">질문 등록</a>
+</div>
+{% endblock %}
