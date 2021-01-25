@@ -1,0 +1,45 @@
+flask shell로 쉘 실행
+
+※ *이 붙은 작업은 2번째 실행부터 생략가능하다는 표시
+
+[insert(Question)]
+* from pybo.models import Question, Answer
+* from datetime import datetime
+q = Question(subject='pybo가 무엇인가요?', content='pybo에 대해서 알고 싶습니다.', create_date=datetime.now())
+이런식으로 쿼리 작성
+
+* from pybo import db
+db.session.add(q)
+db.session.commit()
+이런식으로 DB에 넘김
+커밋 이전에는 db.session.rollback으로 무효처리 할 수 있지만, 커밋 후에는 되돌릴 수 없다.
+
+[select]
+Question.query.all()로
+저장된 데이터를 조회할 수 있다.
+Question.query.filter(Question.id==1).all()
+이런식으로 조건을 달 수 있다.
+id는 유일 값이므로 filter 대신 get함수로도 조회가능
+ex) Question.query.get(1)
+Question.query.filter(Question.subject.like("%무엇%")).all()
+이런식으로 문자열로 조회가능
+
+[update]
+q = Question.query.get(1)
+q.subject = 'Flask Model Question'
+db.session.commit()
+이런식으로 데이터를 조회하고 subject의 속성을 수정하고 커밋한다.
+
+[delete]
+q = Question.query.get(1)
+db.session.delete(q)
+db.session.commit()
+
+[insert(Answer)]
+from datetime import datetime
+from pybo.models import Question, Answer
+from pybo import db
+q = Question.query.get(2)
+a = Answer(question=q, content='네 자동으로 생성됩니다.', create_date=datetime.now())
+
+※ a.question으로 답변과 연계된 질문에 대한 db를 가져올 수 있다.
