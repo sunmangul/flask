@@ -26,3 +26,9 @@ def create_app():
     app.register_blueprint(answer_views.bp)
     return app
 
+'''
+굴리기 전
+set FLASK_APP=pybo
+set FLASK_ENV=development
+를 터미넣에 입력
+'''
